@@ -7,10 +7,11 @@
     "compile": "forge fmt && forge compile",
     "build": "forge fmt && forge build",
     "test:coverage": "forge coverage --fork-url https://mainnet.optimism.io --fork-block-number 132218259 --no-match-coverage '(script|test)'",
+    "test:coverage:sepolia": "forge coverage --fork-url https://sepolia.drpc.org --no-match-coverage '(script|test)'",
     "test:coverage:all": "forge coverage --fork-url https://mainnet.optimism.io --fork-block-number 132218259",
     "test:coverage:report": "forge coverage --fork-url https://mainnet.optimism.io --report lcov && genhtml lcov.info --branch-coverage --output-dir coverage",
     "test:op": "forge clean && forge fmt && forge test --fork-url https://mainnet.optimism.io --fork-block-number 132218259",
-    "test:op-sepolia": "forge clean && forge fmt && forge test --fork-url https://sepolia.optimism.io",
+    "test:sepolia": "forge clean && forge fmt && forge test --fork-url https://sepolia.drpc.org ",
     "format": "forge fmt",
     "clean": "forge clean"
   }
