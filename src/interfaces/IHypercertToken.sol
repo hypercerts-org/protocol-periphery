@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-/// @title Interface for hypercert token interactions
-/// @author bitbeckers
-/// @notice This interface declares the required functionality for a hypercert token
-/// @notice This interface does not specify the underlying token type (e.g. 721 or 1155)
 interface IHypercertToken {
     /**
      * AllowAll = Unrestricted
@@ -64,4 +60,11 @@ interface IHypercertToken {
     /// @dev Returns the `uri` for metadata of the claim represented by `tokenID`
     /// @dev Metadata must conform to { Hypercert Metadata } spec (based on ERC1155 Metadata)
     function uri(uint256 tokenID) external view returns (string memory metadata);
+
+    /* -------------- Functions for SemiFungible1155 ----------------- */
+    function ownerOf(uint256 tokenID) external view returns (address);
+
+    function safeTransferFrom(address from, address to, uint256 id, uint256 value, bytes memory data) external;
+
+    function readTransferRestriction(uint256 tokenID) external view returns (string memory);
 }
