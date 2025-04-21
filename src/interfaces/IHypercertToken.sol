@@ -67,4 +67,6 @@ interface IHypercertToken {
     function safeTransferFrom(address from, address to, uint256 id, uint256 value, bytes memory data) external;
 
     function readTransferRestriction(uint256 tokenID) external view returns (string memory);
+
+    function setApprovalForAll(address operator, bool approved) external;
 }
