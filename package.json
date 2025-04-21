@@ -12,6 +12,8 @@
     "test:coverage:report": "forge coverage --fork-url https://mainnet.optimism.io --report lcov && genhtml lcov.info --branch-coverage --output-dir coverage",
     "test:op": "forge clean && forge fmt && forge test --fork-url https://mainnet.optimism.io --fork-block-number 132218259",
     "test:sepolia": "forge clean && forge fmt && forge test --fork-url https://sepolia.drpc.org ",
+    "deploy:sepolia": "forge script script/DeployBatchTransferScript.s.sol --rpc-url https://sepolia.drpc.org --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key sepolia --verify",
+    "deploy:op": "forge script script/DeployBatchTransferScript.s.sol --rpc-url https://mainnet.optimism.io --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key optimism --verify",
     "format": "forge fmt",
     "clean": "forge clean"
   }

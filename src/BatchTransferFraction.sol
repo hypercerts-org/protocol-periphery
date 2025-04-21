@@ -4,11 +4,10 @@ pragma solidity ^0.8.28;
 import "./interfaces/IHypercertToken.sol";
 
 contract BatchTransferFraction {
-    IHypercertToken public hypercertToken;
+    IHypercertToken public immutable hypercertToken;
     uint256 internal constant FRACTION_LIMIT = 253;
 
     error INVALID_LENGTHS();
-
     error INVALID_DATA();
     error INVALID_CALLER(address caller);
     error INVALID_HYPERCERT_ADDRESS(address hypercertAddress);
