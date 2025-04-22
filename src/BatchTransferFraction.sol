@@ -5,7 +5,6 @@ import "./interfaces/IHypercertToken.sol";
 
 contract BatchTransferFraction {
     IHypercertToken public immutable hypercertToken;
-    uint256 internal constant FRACTION_LIMIT = 253;
 
     error INVALID_LENGTHS();
     error INVALID_DATA();
@@ -22,24 +21,35 @@ contract BatchTransferFraction {
         hypercertToken = IHypercertToken(_hypercertToken);
     }
 
+    /// @dev msg.sender must be the owner of all the fraction IDs being transferred
+    /// @dev msg.sender must have approved the contract to transfer the fractions
+    /// @dev The length of recipients and fractionIds must be the same
+    /// @param data The encoded data containing the recipients and fraction IDs
     function batchTransfer(bytes memory data) external {
         require(data.length > 0, INVALID_DATA());
         TransferData memory transferData = abi.decode(data, (TransferData));
         require(transferData.recipients.length == transferData.fractionIds.length, INVALID_LENGTHS());
 
-        for (uint256 i = 0; i < transferData.recipients.length; i++) {
-            address recipient = transferData.recipients[i];
-            uint256 fractionId = transferData.fractionIds[i];
+        _batchTransfer(transferData.recipients, transferData.fractionIds);
+    }
+
+    /// @notice Transfers fractions to multiple recipients
+    /// @dev The length of recipients and fractionIds must be the same
+    /// @dev The caller must be the owner of all the fraction IDs being transferred
+    /// @param recipients The addresses of the recipients
+    /// @param fractionIds The IDs of the fractions to be transferred
+    function _batchTransfer(address[] memory recipients, uint256[] memory fractionIds) internal {
+        for (uint256 i = 0; i < recipients.length; i++) {
+            address recipient = recipients[i];
+            uint256 fractionId = fractionIds[i];
             require(hypercertToken.ownerOf(fractionId) == msg.sender, INVALID_CALLER(msg.sender));
 
             hypercertToken.safeTransferFrom(msg.sender, recipient, fractionId, 1, "");
         }
     }
 
-    function isFirstIndex(uint256 tokenId) public pure returns (bool) {
-        return (tokenId & ((1 << 128) - 1)) == 0;
-    }
-
+		/// @notice Returns the base type of a token ID
+		/// @dev The base type is the first 128 bits of the token ID
     function getBaseType(uint256 tokenId) public pure returns (uint256) {
         return tokenId & (type(uint256).max << 128);
     }

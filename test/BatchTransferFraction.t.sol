@@ -36,15 +36,6 @@ contract BatchTransferFractionTest is Test {
         new BatchTransferFraction(address(0));
     }
 
-    function testIsFirstIndex() public {
-        assertEq(hypercertToken.unitsOf(FRACTION_ID), 100_000_000, "Owner should have 100M units");
-
-        assertEq(batchTransferFraction.isFirstIndex(CLAIM_ID), true);
-        assertEq(batchTransferFraction.isFirstIndex(FRACTION_ID), false);
-
-        vm.stopPrank();
-    }
-
     function testRevertINVALID_DATA() public {
         vm.expectRevert(BatchTransferFraction.INVALID_DATA.selector);
         batchTransferFraction.batchTransfer("");
