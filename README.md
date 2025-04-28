@@ -34,7 +34,6 @@ end
         require(data.length > 0, INVALID_DATA());
         TransferData memory transferData = abi.decode(data, (TransferData));
         require(transferData.recipients.length == transferData.fractionIds.length, INVALID_LENGTHS());
-
         _batchTransfer(transferData.recipients, transferData.fractionIds);
     }
 
@@ -44,13 +43,15 @@ end
     /// @param recipients The addresses of the recipients
     /// @param fractionIds The IDs of the fractions to be transferred
     function _batchTransfer(address[] memory recipients, uint256[] memory fractionIds) internal {
-        for (uint256 i = 0; i < recipients.length; i++) {
+        uint256 length = recipients.length;
+        for (uint256 i = 0; i < length; i++) {
             address recipient = recipients[i];
             uint256 fractionId = fractionIds[i];
             require(hypercertToken.ownerOf(fractionId) == msg.sender, INVALID_CALLER(msg.sender));
 
             hypercertToken.safeTransferFrom(msg.sender, recipient, fractionId, 1, "");
         }
+        emit BatchFractionTransfer(msg.sender, recipients, fractionIds);
     }
 ```
 
