@@ -18,9 +18,10 @@ contract BatchTransferFractionTest is Test {
     address public owner;
     address public alice = makeAddr("Alice");
     address public bob = makeAddr("Bob");
-
     uint256 public CLAIM_ID;
     uint256 public FRACTION_ID;
+
+    event BatchFractionTransfer(address indexed from, address[] indexed to, uint256[] indexed fractionId);
 
     function setUp() public {
         configureChain();
@@ -74,11 +75,6 @@ contract BatchTransferFractionTest is Test {
         vm.stopPrank();
     }
 
-    function testGetBaseType() public view {
-        uint256 baseType = batchTransferFraction.getBaseType(FRACTION_ID);
-        assertEq(baseType, CLAIM_ID, "Base type should be equal to CLAIM_ID");
-    }
-
     function testBatchTransfer() public {
         uint256[] memory tokenIds = new uint256[](2);
         tokenIds[0] = 314_761_189_401_868_078_703_621_511_874_385_595_596_802;
@@ -93,6 +89,9 @@ contract BatchTransferFractionTest is Test {
         vm.startPrank(owner);
         hypercertToken.setApprovalForAll(address(batchTransferFraction), true);
 
+        vm.expectEmit(true, true, true, true);
+        emit BatchFractionTransfer(owner, recipients, tokenIds);
+
         batchTransferFraction.batchTransfer(data);
 
         assertEq(hypercertToken.ownerOf(tokenIds[0]), alice, "Alice should own the first token");
@@ -106,15 +105,23 @@ contract BatchTransferFractionTest is Test {
     }
 
     function configureChain() public {
-        if (block.chainid == 10) {
-            // Optimism mainnet
-            hypercertToken = IHypercertToken(0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07);
-        } else if (block.chainid == 11_155_111) {
+        string memory root = vm.projectRoot();
+        string memory path =
+            string.concat(root, "/lib/hypercerts-protocol/contracts/src/deployments/deployments-protocol.json");
+        string memory json = vm.readFile(path);
+        string memory chainIdStr = vm.toString(block.chainid);
+
+        bytes memory uupsAddressRaw = vm.parseJson(json, string.concat(".", chainIdStr, ".HypercertMinterUUPS"));
+
+        address uupsAddress = abi.decode(uupsAddressRaw, (address));
+
+        hypercertToken = IHypercertToken(uupsAddress);
+
+        if (block.chainid == 11_155_111) {
             // Sepolia
             CLAIM_ID = 296_385_941_588_137_401_676_599_283_073_070_112_178_176;
             FRACTION_ID = CLAIM_ID + 1;
             owner = 0xc3593524E2744E547f013E17E6b0776Bc27Fc614;
-            hypercertToken = IHypercertToken(0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941);
         } else {
             revert("Unsupported chain");
         }

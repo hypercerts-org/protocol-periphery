@@ -14,6 +14,12 @@
     "test:sepolia": "forge clean && forge fmt && forge test --fork-url https://sepolia.drpc.org ",
     "deploy:sepolia": "forge script script/DeployBatchTransferScript.s.sol --rpc-url https://sepolia.drpc.org --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key sepolia --verify",
     "deploy:op": "forge script script/DeployBatchTransferScript.s.sol --rpc-url https://mainnet.optimism.io --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key optimism --verify",
+    "deploy:base-sepolia": "forge script script/DeployBatchTransferScript.s.sol --rpc-url base-sepolia --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key base --verify",
+    "deploy:base": "forge script script/DeployBatchTransferScript.s.sol --rpc-url base --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key base --verify",
+    "deploy:celo": "forge script script/DeployBatchTransferScript.s.sol --rpc-url celo --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key celo --verify",
+    "deploy:arbitrum-sepolia": "forge script script/DeployBatchTransferScript.s.sol --rpc-url arbitrum-sepolia --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key arbitrum --verify",
+    "deploy:arbitrum": "forge script script/DeployBatchTransferScript.s.sol --rpc-url arbitrum --broadcast -vvv --private-key $DEPLOYER_PRIVATE_KEY --etherscan-api-key arbitrum --verify",
+    "deploy:all": "pnpm deploy:sepolia && pnpm deploy:op && pnpm deploy:base-sepolia && pnpm deploy:base && pnpm deploy:celo && pnpm deploy:arbitrum-sepolia && pnpm deploy:arbitrum",
     "format": "forge fmt",
     "clean": "forge clean"
   }

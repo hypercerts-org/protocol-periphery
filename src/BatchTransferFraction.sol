@@ -11,6 +11,8 @@ contract BatchTransferFraction {
     error INVALID_CALLER(address caller);
     error INVALID_HYPERCERT_ADDRESS(address hypercertAddress);
 
+    event BatchFractionTransfer(address indexed from, address[] indexed to, uint256[] indexed fractionId);
+
     struct TransferData {
         address[] recipients;
         uint256[] fractionIds;
@@ -29,7 +31,6 @@ contract BatchTransferFraction {
         require(data.length > 0, INVALID_DATA());
         TransferData memory transferData = abi.decode(data, (TransferData));
         require(transferData.recipients.length == transferData.fractionIds.length, INVALID_LENGTHS());
-
         _batchTransfer(transferData.recipients, transferData.fractionIds);
     }
 
@@ -39,18 +40,14 @@ contract BatchTransferFraction {
     /// @param recipients The addresses of the recipients
     /// @param fractionIds The IDs of the fractions to be transferred
     function _batchTransfer(address[] memory recipients, uint256[] memory fractionIds) internal {
-        for (uint256 i = 0; i < recipients.length; i++) {
+        uint256 length = recipients.length;
+        for (uint256 i = 0; i < length; i++) {
             address recipient = recipients[i];
             uint256 fractionId = fractionIds[i];
             require(hypercertToken.ownerOf(fractionId) == msg.sender, INVALID_CALLER(msg.sender));
 
             hypercertToken.safeTransferFrom(msg.sender, recipient, fractionId, 1, "");
         }
-    }
-
-    /// @notice Returns the base type of a token ID
-    /// @dev The base type is the first 128 bits of the token ID
-    function getBaseType(uint256 tokenId) public pure returns (uint256) {
-        return tokenId & (type(uint256).max << 128);
+        emit BatchFractionTransfer(msg.sender, recipients, fractionIds);
     }
 }

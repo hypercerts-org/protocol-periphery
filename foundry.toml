@@ -11,13 +11,18 @@ ffi = true
 ast = true
 build_info = true
 extra_output = ["storageLayout"]
-fs_permissions = [{ access = "read", path = "out" }]
+fs_permissions = [
+	{ access = "read", path =  "out"},
+	{ access = "read", path =  "./lib/hypercerts-protocol/contracts/src/deployments"}]
 optimizer = true
 optimizer_runs = 200
 
 [etherscan]
-optimism = { key = "${API_KEY_OPTIMISTIC_ETHERSCAN}" }
 sepolia = { key = "${API_KEY_ETHERSCAN}" }
+base = { key = "${API_KEY_BASESCAN}" }
+optimism = { key = "${API_KEY_OPTIMISTIC_ETHERSCAN}" }
+arbitrum = { key = "${API_KEY_ARBISCAN}" }
+celo = { key = "${API_KEY_CELOSCAN}" }
 
 [fmt]
 bracket_spacing = true
@@ -30,5 +35,10 @@ tab_width = 4
 wrap_comments = true
 
 [rpc_endpoints]
-optimism = "https://optimism-mainnet.infura.io/v3/${API_KEY_INFURA}"
 sepolia = "https://sepolia.infura.io/v3/${API_KEY_INFURA}"
+base-sepolia = "https://base-sepolia.infura.io/v3/${API_KEY_INFURA}"
+arbitrum-sepolia = "https://arbitrum-sepolia.infura.io/v3/${API_KEY_INFURA}"
+optimism = "https://optimism-mainnet.infura.io/v3/${API_KEY_INFURA}"
+arbitrum = "https://arbitrum-mainnet.infura.io/v3/${API_KEY_INFURA}"
+base = "https://base-mainnet.infura.io/v3/${API_KEY_INFURA}"
+celo = "https://celo-mainnet.infura.io/v3/${API_KEY_INFURA}"
