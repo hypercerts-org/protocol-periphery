@@ -18,9 +18,10 @@ contract BatchTransferFractionTest is Test {
     address public owner;
     address public alice = makeAddr("Alice");
     address public bob = makeAddr("Bob");
-
     uint256 public CLAIM_ID;
     uint256 public FRACTION_ID;
+
+    event BatchFractionTransfer(address indexed from, address[] indexed to, uint256[] indexed fractionId);
 
     function setUp() public {
         configureChain();
@@ -92,6 +93,9 @@ contract BatchTransferFractionTest is Test {
 
         vm.startPrank(owner);
         hypercertToken.setApprovalForAll(address(batchTransferFraction), true);
+
+        vm.expectEmit(true, true, true, true);
+        emit BatchFractionTransfer(owner, recipients, tokenIds);
 
         batchTransferFraction.batchTransfer(data);
 
