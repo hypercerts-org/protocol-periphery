@@ -48,8 +48,8 @@ contract BatchTransferFraction {
         }
     }
 
-		/// @notice Returns the base type of a token ID
-		/// @dev The base type is the first 128 bits of the token ID
+    /// @notice Returns the base type of a token ID
+    /// @dev The base type is the first 128 bits of the token ID
     function getBaseType(uint256 tokenId) public pure returns (uint256) {
         return tokenId & (type(uint256).max << 128);
     }
