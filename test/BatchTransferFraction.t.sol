@@ -18,8 +18,6 @@ contract BatchTransferFractionTest is Test {
     address public owner;
     address public alice = makeAddr("Alice");
     address public bob = makeAddr("Bob");
-    uint256 public CLAIM_ID;
-    uint256 public FRACTION_ID;
 
     event BatchFractionTransfer(address indexed from, address[] indexed to, uint256[] indexed fractionId);
 
@@ -44,8 +42,8 @@ contract BatchTransferFractionTest is Test {
 
     function testRevertINVALID_LENGTHS() public {
         uint256[] memory tokenIds = new uint256[](2);
-        tokenIds[0] = 314_761_189_401_868_078_703_621_511_874_385_595_596_802;
-        tokenIds[1] = 314_761_189_401_868_078_703_621_511_874_385_595_596_803;
+        tokenIds[0] = 320_205_707_272_603_094_119_035_505_593_293_886_980_098;
+        tokenIds[1] = 320_205_707_272_603_094_119_035_505_593_293_886_980_099;
 
         address[] memory recipients = new address[](3);
         recipients[0] = alice;
@@ -60,8 +58,8 @@ contract BatchTransferFractionTest is Test {
 
     function testRevertINVALID_CALLER() public {
         uint256[] memory tokenIds = new uint256[](2);
-        tokenIds[0] = 314_761_189_401_868_078_703_621_511_874_385_595_596_802;
-        tokenIds[1] = 314_761_189_401_868_078_703_621_511_874_385_595_596_803;
+        tokenIds[0] = 320_205_707_272_603_094_119_035_505_593_293_886_980_098;
+        tokenIds[1] = 320_205_707_272_603_094_119_035_505_593_293_886_980_099;
 
         address[] memory recipients = new address[](2);
         recipients[0] = alice;
@@ -77,8 +75,8 @@ contract BatchTransferFractionTest is Test {
 
     function testBatchTransfer() public {
         uint256[] memory tokenIds = new uint256[](2);
-        tokenIds[0] = 314_761_189_401_868_078_703_621_511_874_385_595_596_802;
-        tokenIds[1] = 314_761_189_401_868_078_703_621_511_874_385_595_596_803;
+        tokenIds[0] = 320_205_707_272_603_094_119_035_505_593_293_886_980_098;
+        tokenIds[1] = 320_205_707_272_603_094_119_035_505_593_293_886_980_099;
 
         address[] memory recipients = new address[](2);
         recipients[0] = alice;
@@ -119,8 +117,6 @@ contract BatchTransferFractionTest is Test {
 
         if (block.chainid == 11_155_111) {
             // Sepolia
-            CLAIM_ID = 296_385_941_588_137_401_676_599_283_073_070_112_178_176;
-            FRACTION_ID = CLAIM_ID + 1;
             owner = 0xc3593524E2744E547f013E17E6b0776Bc27Fc614;
         } else {
             revert("Unsupported chain");
