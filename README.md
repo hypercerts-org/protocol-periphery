@@ -3,9 +3,18 @@
 [![TEST](https://github.com/hypercerts-org/protocol-periphery/actions/workflows/test.yml/badge.svg)](https://github.com/hypercerts-org/protocol-periphery/actions/workflows/test.yml)
 [![Slither Analysis](https://github.com/hypercerts-org/protocol-periphery/actions/workflows/slither.yaml/badge.svg)](https://github.com/hypercerts-org/protocol-periphery/actions/workflows/slither.yaml)
 
-## Implementation
+## Table of Contents
 
-### BatchTransferFraction
+- [Hypercerts Periphery Contracts](#hypercerts-periphery-contracts)
+	- [Table of Contents](#table-of-contents)
+	- [BatchTransferFraction](#batchtransferfraction)
+		- [Implementation](#implementation)
+		- [Usage](#usage)
+		- [Deployments](#deployments)
+
+## BatchTransferFraction
+
+### Implementation
 
 ```mermaid
 sequenceDiagram
@@ -55,9 +64,56 @@ end
     }
 ```
 
-## Deployments
+### Usage
 
-### BatchTransferFraction
+> [!important]
+> make sure you own the hypercerts.
+>
+> most of hypercerts have **CREATOR ONLY** [transfer restriction](https://github.com/hypercerts-org/hypercerts-protocol/blob/a606868b1f8d0502124428c45a985002170e6fca/contracts/src/protocol/interfaces/IHypercertToken.sol#L9-L19), so make sure you created the hypercerts as well.
+
+1. Encode data with [ethers](https://docs.ethers.org/v5/api/utils/abi/coder) or [viem](https://viem.sh/docs/abi/encodeAbiParameters#encodeabiparameters).
+
+   with ethers
+
+   ```javascript
+   import { ethers } from "ethers";
+   ...
+   const recipients = ["0x123....", "0x456...."];
+   const fractionIds = [BigInt("23894....5301"), BigInt("23894....5302")];
+
+   const encodedData = ethers.AbiCoder.defaultAbiCoder().encode(
+   	[`tuple(address[], uint256[])`],
+   	[[recipients, fractionIds]]
+   );
+   console.log('Encoded Data:', encodedData);
+    // e.g. Encoded Data: 0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000100000000000000000000000006aa005386f53ba7b980c61e0d067cabc7602a620000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000c000000000000000000000000000000002
+   ```
+
+   with viem
+
+   ```javascript
+   import { encodeAbiParameters } from 'viem';
+
+   ...
+   const recipients = ["0x123....", "0x456...."];
+   const fractionIds = [BigInt("23894....5301"), BigInt("23894....5302")];
+   const abiParams = [
+    {
+      type: 'tuple',
+      components: [{ type: 'address[]' }, { type: 'uint256[]' }],
+    },
+   ];
+   const encodedData = encodeAbiParameters(abiParams, [
+    [recipients, fractionIds],
+   ]);
+   ```
+
+2. In the HypercertsMinter contract on the chain where you want to execute batch transfer, call [setApprovalForAll (0xa22cb465)](https://optimistic.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07#writeProxyContract#F17) to approve the batchTransfer contract to send hypercerts.
+   `operator == BatchTransfer contract address, approved == true`
+
+3. call batchTransfer function
+
+### Deployments
 
 | chain            | chainId  | address                                                                                                                          |
 | ---------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
