@@ -1,4 +1,10 @@
-# Hypercerts Periphery Contracts
+# Hypercerts periphery contracts (archived)
+
+> [!IMPORTANT]
+> This repository is archived and no longer maintained. Its contract, BatchTransferFraction, stays deployed on the chains listed under [Deployments](#deployments) and still works with hypercerts minted on Hypercerts v1. The repository stays public as the record of the contract's source and addresses.
+
+- Hypercerts has reached v2, and the v1 app has been retired. See [hypercerts.org/v1-retired](https://hypercerts.org/v1-retired).
+- For Hypercerts v2, see [hypercerts.org](https://hypercerts.org) and the [documentation](https://docs.hypercerts.org).
 
 [![TEST](https://github.com/hypercerts-org/protocol-periphery/actions/workflows/test.yml/badge.svg)](https://github.com/hypercerts-org/protocol-periphery/actions/workflows/test.yml)
 [![Slither Analysis](https://github.com/hypercerts-org/protocol-periphery/actions/workflows/slither.yaml/badge.svg)](https://github.com/hypercerts-org/protocol-periphery/actions/workflows/slither.yaml)
@@ -124,3 +130,7 @@ end
 | Base             | 8453     | [0xc4aEB039BC432343bf4dB57Be203E0540d385a18](https://basescan.org/address/0xc4aEB039BC432343bf4dB57Be203E0540d385a18)            |
 | Arbitrum         | 42161    | [0x8b973c408c2748588b3ECFfDA06D670819FbEb1D](https://arbiscan.io/address/0x8b973c408c2748588b3ECFfDA06D670819FbEb1D)             |
 | Celo             | 42220    | [0xB64B7e4793D72958e028B1D5D556888b115c4c3E](https://celoscan.io/address/0xB64B7e4793D72958e028B1D5D556888b115c4c3E)             |
+
+## License
+
+[MIT](LICENSE), as the `SPDX-License-Identifier` in each source file says.
