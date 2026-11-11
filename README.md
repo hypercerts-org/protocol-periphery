@@ -11,7 +11,7 @@
 
 ## Table of Contents
 
-- [Hypercerts Periphery Contracts](#hypercerts-periphery-contracts)
+- [Hypercerts periphery contracts (archived)](#hypercerts-periphery-contracts-archived)
 	- [Table of Contents](#table-of-contents)
 	- [BatchTransferFraction](#batchtransferfraction)
 		- [Implementation](#implementation)
